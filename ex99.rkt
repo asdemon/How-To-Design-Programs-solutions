@@ -110,5 +110,3 @@
      [on-tick si-move]
      [to-draw si-render]))
      ;[on-key key-handler]))
-
-(main 0)

@@ -1,0 +1,103 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex268) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define-struct inventory [name des acquisition sale])
+; inventory record specifies the name of an item, a description, the acquisition price, and the recommended sales price
+
+(define (sort-inventory l)
+  (local ((define (abs-price i1 i2)
+            (< (abs (- (inventory-acquisition i1) (inventory-sale i1)))
+               (abs (- (inventory-acquisition i2) (inventory-sale i2))))))
+    ;---IN------
+    (sort l abs-price)))
+
+
+; ex269
+; number, a list of inventory records -> a list of inventory records
+;  it produces a list of all those structures whose sales price is below the number ua.
+(define (eliminate-expensive ua l)
+  (local (
+          (define (below-price i)
+            (< (inventory-sale i)
+               ua)))
+    ;---IN------
+    (filter below-price l)))
+
+(define (recall ty l)
+  (local (
+          (define (name-not-ty i)
+            (not (string=? (inventory-name i)
+               ty))))
+    ;---IN------
+    (filter name-not-ty l)))
+
+; lists of names ,lists of names -> lists of names
+; consumes two lists of names and selects all those from the second one that are also on the first.
+(check-expect (selection '("a" "b" "c") '("b" "c" "d"))
+              '("b" "c"))
+(define (selection l1 l2)
+  (local
+    ((define (in-list name)
+        (ormap string=? l1 (make-list (length l1) name))))
+    ;----IN------
+    (filter in-list l2)))
+
+
+; ex270
+(define (ex270-1 n)
+  (local
+    ((define (f x) x))
+    ;----IN--------
+    (build-list n f)))
+(define (ex270-3 n)
+  (local
+    ((define (f x) (/ 1 (add1 x))))
+    ;----IN--------
+    (build-list n f)))
+(define (ex270-4 n)
+  (local
+    ((define (f x) (add1 (* 2 x))))
+    ;----IN--------
+    (build-list n f)))
+; number -> matrix
+; 对角阵
+(define (ex270-5 n)
+  (local
+    ; number -> list of number
+    ; product a list which at location n is 1, other is 0
+    ((define (f x) (build-list  n (lambda (y) (if (= (add1 y) x) 1 0)))))
+    ;----IN--------
+    (map f (build-list n add1))))
+
+
+; ex271
+; name, list of name -> boolean
+; It determines whether any of the names on the latter are equal to or an extension of the former
+(define (find-name name l)
+  (local
+    (
+     ;n -> boolean
+     ; the input is starting with name or not
+     (define (start-with arguement)
+       (if
+        (> (string-length name) (string-length arguement))
+        #f
+        (string=? name (substring arguement 0 (string-length name))))))
+    ;-----IN--------
+    (ormap start-with l)))
+
+
+
+; ex272
+; append
+(define (append-from-fold l1 l2)
+  (foldr cons l2 l1))
+
+
+; ex273
+(define (map1 f l)
+  (local
+    ((define (g x base)
+       (cons (f x) base)))
+    ;-------IN---------
+    (foldr g '() l)))

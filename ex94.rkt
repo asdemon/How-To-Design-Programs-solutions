@@ -8,9 +8,11 @@
 (define SCENE-WIDTH 200)
 (define TANK-HEIGHT 20)
 (define TANK-WIDTH 40)
-(define TANK (rectangle TANK-WIDTH TANK-HEIGHT "solid" "green"))
-(define UFO  (overlay (circle 10 "solid" "green") (rectangle 40 10 "solid" "green")))
-(define MISSILE (triangle 20 "solid" "mag"))
+(define TANK (rectangle TANK-WIDTH TANK-HEIGHT "solid" "yellow"))
+(define UFO  (overlay (circle 10 "solid" "green") (rectangle 40 10 "solid" "purple")))
+(define MISSILE (triangle 20 "solid" "red"))
+(define Y-TANK (- SCENE-HEIGHT (/ TANK-HEIGHT 2)))
+(define BACKGROUND (empty-scene SCENE-WIDTH SCENE-HEIGHT))
 
 (define-struct aim [ufo tank])
 (define-struct fired [ufo tank missile])
@@ -53,12 +55,15 @@
 
 ; Missile Image -> Image 
 ; adds m to the given image im
-(define (missile-render m im) im)
+(define (missile-render m im)
+  (place-image MISSILE (posn-x m) (posn-y m) im))
 
 ; Tank Image -> Image 
 ; adds t to the given image im
-(define (tank-render t im) im)
+(define (tank-render t im)
+  (place-image TANK (tank-loc t) Y-TANK im))
  
 ; UFO Image -> Image 
 ; adds u to the given image im
-(define (ufo-render u im) im)
+(define (ufo-render u im)
+  (place-image UFO (posn-x u) (posn-y u) im))

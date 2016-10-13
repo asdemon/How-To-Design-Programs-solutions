@@ -109,7 +109,7 @@
 ; -> Posn 
 ; ???
 (define (block-generate x)
-  (make-posn (random (- WIDTH 1)) 0))
+  (make-posn (+ 1 (random (- WIDTH 1))) 0))
  
 
 (tetris-main (make-tetris (make-posn 1 1) '()))
