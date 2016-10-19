@@ -1,0 +1,85 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname ex238) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+; Nelon -> Number
+; determines the smallest 
+; number on l
+(define (inf l)
+  (cond
+    [(empty? (rest l))
+     (first l)]
+    [else
+     (if (< (first l)
+            (inf (rest l)))
+         (first l)
+         (inf (rest l)))]))
+    
+; Nelon -> Number
+; determines the largest 
+; number on l
+(define (sup l)
+  (cond
+    [(empty? (rest l))
+     (first l)]
+    [else
+     (if (> (first l)
+            (sup (rest l)))
+         (first l)
+         (sup (rest l)))]))
+
+; Nelon -> Number
+; determines the largest 
+; number on l
+(define (abstract-1 l op)
+  (cond
+    [(empty? (rest l))
+     (first l)]
+    [else
+     (if (op (first l)
+            (abstract-1 (rest l)))
+         (first l)
+         (abstract-1 (rest l)))]))
+
+(define (inf-1 l)
+  (abstract-1 l <))
+(define (sup-1 l)
+  (abstract-1 l >))
+
+; Nelon -> Number
+; determines the smallest 
+; number on l
+(define (inf2 l)
+  (cond
+    [(empty? (rest l))
+     (first l)]
+    [else
+     (min (first l)
+            (inf (rest l)))
+         (first l)
+         (inf (rest l)))]))
+    
+; Nelon -> Number
+; determines the largest 
+; number on l
+(define (sup2 l)
+  (cond
+    [(empty? (rest l))
+     (first l)]
+    [else
+     (if (> (first l)
+            (sup (rest l)))
+         (first l)
+         (sup (rest l)))]))
+
+; Nelon -> Number
+; determines the largest 
+; number on l
+(define (abstract-2 l op)
+  (cond
+    [(empty? (rest l))
+     (first l)]
+    [else
+     (if (op (first l)
+            (abstract-1 (rest l)))
+         (first l)
+         (abstract-1 (rest l)))]))

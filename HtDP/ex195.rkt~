@@ -1,0 +1,13 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname ex195) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+; On OS X: 
+(define DICTIONARY-LOCATION "/usr/share/dict/words")
+
+; A Letter is one of the following 1Strings: 
+; – "a"
+; – ... 
+; – "z"
+; or, equivalently, a member? of this list: 
+(define LETTERS
+  (explode "abcdefghijklmnopqrstuvwxyz"))
