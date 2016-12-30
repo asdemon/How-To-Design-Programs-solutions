@@ -29,17 +29,17 @@
     
     (define (rear-deque-car)
       (if (empty-queue?)
-          (error "REAR called with an empty queue")
+          (error "rear-deque-car called with an empty queue")
           (car rear-ptr)))
 
     (define (front-deque-caddr)
       (if (empty-queue?)
-          (error "REAR called with an empty queue")
+          (error "front-deque-caddr called with an empty queue")
           (caddr front-ptr)))
 
     (define (front-deque-cddr)
       (if (empty-queue?)
-          (error "REAR called with an empty queue")
+          (error "front-deque-cddr called with an empty queue")
           (cddr front-ptr)))
     
     
