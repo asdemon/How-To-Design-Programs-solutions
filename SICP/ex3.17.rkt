@@ -6,13 +6,18 @@
     ((eq? x (car l)) #t)
     (else (member? x (cdr l)))))
 
+
+;the count is this function is useless and can be omitted
 (define (count-pairs l0)
-  (define (count/a l count accumulator)
+  (let ((accumulator '()))
+  (define (count/a l count)
     (cond
       ((not (pair? l)) count)
       ((member? l accumulator) count)
-      (else (+ (count/a (car l)  count (cons l accumulator))
-               (count/a (cdr l)  count (cons l accumulator))
+      (else (+  (begin (set! accumulator (cons l accumulator)) (count/a (car l)  count))
+                (begin (set! accumulator (cons l accumulator)) (count/a (cdr l)  count))
+               1))))
+    (count/a l0 0)))
 
 
 
@@ -20,5 +25,10 @@
 
 
 
-(define a '(a))
-(define b `(,a a))
+
+(define a (cons 1 2))
+(define b (cons a a))
+(define c (cons b b))
+(count-pairs a)
+(count-pairs b)
+(count-pairs c)
