@@ -13,35 +13,36 @@
         ((equal? key (caar records)) (car records))
         (else (assoc key (cdr records)))))
 
-(define (lookup table . key)
-  (if (null? key)
+(define (lookup  keylist table)
+  (if (null? keylist)
       (error "empty key")
       (let ((subtable
-             (assoc (car key) (cdr table))))
+             (assoc (car keylist) (cdr table))))
         (if subtable
-            (if (null? (cdr key))
-                (cadr subtable)
-                (lookup subtable (cdr key)))
-                false))))
+            (if (null? (cdr keylist))
+                (cdr subtable)
+                (lookup  (cdr keylist) subtable))
+            false))))
 
-(define (insert! value table . key)
-  (if (null? key)
+(define (insert! keylist value table)
+  (if (null? keylist)
       (error "empty key")
-  (let ((subtable (assoc (car key) (cdr table))))
-    (if subtable
-        (insert! value table (cdr key))
-        ;not exist ,create one
-        (let ((record (assoc key-2 (cdr subtable))))
-          (if record
-              (set-cdr! record value)
-              (set-cdr! subtable
-                        (cons (cons key-2 value)
-                              (cdr subtable)))))
-        (set-cdr! table
-                  (cons (list key-1
-                              (cons key-2 value))
-                        (cdr table)))))
-  'ok)
+      (let ((subtable (assoc (car keylist) (cdr table))))
+        (if subtable
+            (if (null? (cdr keylist))
+                ;最后一个key值，则subtable中为record
+                (set-cdr! subtable value)
+                (insert! (cdr keylist) value subtable))
+            ;not exist ,create one
+            (if (null? (cdr keylist))
+                (set-cdr! table
+                          (cons (cons (car keylist) value)
+                                (cdr table)))
+                (begin (set-cdr! table
+                                 (cons (cons (car keylist) '())
+                                       (cdr table)))
+                       (insert! (cdr keylist) value (cadr table)))))
+        'ok)))
 
 
 (define T1 (make-table))
