@@ -62,8 +62,12 @@
     'ok))
 
 (define (ripple-carry-adder ak bk sk c)
-  (let ((c0 (make-wire)) (ck '()))
-    (begin
-      (set-signal! c0 0)
+  (cond ((= (length ak) 1) (let ((c0 (make-wire)))
+                             (begin (set-signal! c0 0)
+                                    (full-adder (car ak) (car bk) c0 (car sk) c))))
+        (else (let ((c1 (make-wire)))
+                (ripple-carry-adder (cdr ak) (cdr bk) (cdr sk) c1)
+                (full-adder (car ak) (car bk) c1 (car sk) c)))))
+                                 
       
   
