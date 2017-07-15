@@ -74,7 +74,11 @@
   int)
 
 (define (solve f y0 dt)
-  (begin
-  (define y (integral (delay dy) y0 dt))
-  (define dy (stream-map f y))
-  y))
+    (define y (integral (delay dy) y0 dt))
+    (define dy (stream-map f y))
+    y)
+
+(stream-ref (solve (lambda (y) y)
+                   1
+                   0.001)
+            1000)
